@@ -1,0 +1,62 @@
+{% set GIT_DESCRIBE_NUMBER=5 %}
+{% set GIT_DESCRIBE_TAG="v0.1.0" %}
+
+package:
+  name: demo_pkg
+  version: {{ GIT_DESCRIBE_TAG }}
+
+source:
+  path: ..
+
+build:
+  entry_points:
+    - demo_entry = demo_module.main_demo:main
+  number: {{ GIT_DESCRIBE_NUMBER }}
+  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
+
+requirements:
+  host:
+    - python
+  run:
+    - python
+    - pygame >=2.3.0
+    - matplotlib >=3.7.1
+    - plotly >=5.14.1
+    - opencv >=4.7.0
+    - numpy >=1.23
+    - numba >=0.56.4
+
+test:
+  requires:
+    - pytest
+  commands:
+    - demo_entry --help
+    - python -m demo_module --variant numba  --max-frames 1
+    - demo_entry --gui pygame --max-frames 1
+    - demo_entry --gui matplotlib --max-frames 1
+    - demo_entry --gui plotly --max-frames 1
+    - demo_entry --gui no --max-frames 1
+    - demo_entry --gui opencv --max-frames 1
+  imports:
+    - demo_module
+    - demo_module.impl
+    - demo_module.impl.compute
+    - demo_module.impl.visualize
+    - demo_module.impl.arg_parse
+
+about:
+  home: https://github.com/samaid
+  license: BSD-2-Clause
+  license_family: BSD
+  license_file:
+    - LICENSE
+  summary: Demo for packaging Python
+  description: |
+    Long description of demo
+  doc_url: https://docs.sympy.org/latest/index.html
+  dev_url: https://github.com/sympy/sympy
+  doc_source_url: https://github.com/sympy/sympy/tree/master/doc
+
+extra:
+  recipe-maintainers:
+    - samaid
