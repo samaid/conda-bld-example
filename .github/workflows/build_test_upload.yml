@@ -119,7 +119,9 @@ jobs:
         run: |
           . $CONDA/etc/profile.d/conda.sh
           conda activate test-env
-          pytest ./${{ env.MODULE_NAME }}/tests
+          pushd ./${{ env.MODULE_NAME }}
+          pytest
+          popd
 
   upload_linux:
     needs: test_linux
