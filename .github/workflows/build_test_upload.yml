@@ -109,7 +109,7 @@ jobs:
             ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-
       - name: Install package
         run: |
-          export CHANNELS="-c $GITHUB_WORKSPACE/channel ${{ env.CHANNELS }}
+          export CHANNELS="-c $GITHUB_WORKSPACE/channel ${{ env.CHANNELS }}"
           conda create -n test-env $PACKAGE_NAME pytest python=${{ matrix.python }} ${CHANNELS}
           . $CONDA/etc/profile.d/conda.sh
           conda activate test-env
