@@ -1,6 +1,3 @@
-{% set GIT_DESCRIBE_NUMBER=5 %}
-{% set GIT_DESCRIBE_TAG="v0.1.0" %}
-
 package:
   name: demo_pkg
   version: {{ GIT_DESCRIBE_TAG }}

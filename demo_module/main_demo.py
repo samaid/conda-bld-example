@@ -4,10 +4,12 @@ from demo_module.impl.compute import compute_init, compute_update, M, N
 from demo_module.impl.visualize import visual_init, visual_draw, visual_prepare_next_frame, visual_user_cancelled
 from demo_module.impl.visualize import visual_finalize
 
+
 def main():
     print("Printing all hello messages from main_demo")
     hello_init()
     hello_main()
+    print(f"__name__={__name__}")
 
     values = compute_init(M, N)
     surface = visual_init(M*10, N*10)
@@ -24,7 +26,6 @@ def main():
         not_reached_max_frames = visual_prepare_next_frame(surface, frames)
         frames += 1
         do_demo = not visual_user_cancelled() and not_reached_max_frames
-
 
     visual_finalize()
 
