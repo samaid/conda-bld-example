@@ -76,9 +76,9 @@ jobs:
           name: ${{ env.PACKAGE_NAME }} ${{ runner.os }} Python ${{ matrix.python }}
       - name: Add conda to system path
         run: echo $CONDA/bin >> $GITHUB_PATH
-      #- name: Install conda-build
+      - name: Install conda-build
         # Needed to be able to run conda index
-        #run: conda install conda-build
+        run: conda install conda-build
       - name: Create conda channel
         run: |
           mkdir -p $GITHUB_WORKSPACE/channel/linux-64
