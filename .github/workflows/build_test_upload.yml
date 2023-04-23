@@ -10,7 +10,6 @@ env:
   PACKAGE_NAME: demo_pkg
   MODULE_NAME: demo_module
   RUN_TYPE: quick_run  # Set to full_run to run full matrix
-  PYTHON_MATRIX: ['3.8', '3.9', '3.10']  # PYTHON_MATRIX: ['3.8']
 
 jobs:
   build_linux:
@@ -18,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        python: PYTHON_MATRIX
+        python: ['3.8', '3.9', '3.10']
     steps:
       - uses: actions/checkout@v3
         with:
