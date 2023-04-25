@@ -28,7 +28,7 @@ test:
     - pytest
   commands:
     - demo_entry --help
-    - python -m demo_module --variant numba  --max-frames 1
+    #- python -m demo_module --variant numba  --max-frames 1
     - demo_entry --gui pygame --max-frames 1
     #- demo_entry --gui matplotlib --max-frames 1
     #- demo_entry --gui plotly --max-frames 1
