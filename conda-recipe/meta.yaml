@@ -21,7 +21,7 @@ requirements:
     #- plotly >=5.14.1
     #- opencv >=4.7.0
     - numpy >=1.21
-    - numba >=0.55
+    #- numba >=0.55
 
 test:
   requires:

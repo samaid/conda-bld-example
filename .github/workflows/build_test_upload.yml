@@ -9,7 +9,6 @@ on:
 env:
   PACKAGE_NAME: demo_pkg
   MODULE_NAME: demo_module
-  RUN_TYPE: quick_run  # Set to full_run to run full matrix
 
 jobs:
   build_linux:
@@ -129,7 +128,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        python: ['3.8', '3.9', '3.10']
+        python: ['3.10']
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -152,7 +151,7 @@ jobs:
 
     strategy:
       matrix:
-        python: ['3.8', '3.9', '3.10']
+        python: ['3.10']
     env:
       conda-bld: C:\Miniconda\conda-bld\win-64\
     steps:
@@ -179,7 +178,7 @@ jobs:
             ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-python-${{ matrix.python }}-
             ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-
       - name: Build conda package
-        run: conda build --keep-old-work --dirty --no-test --python ${{ matrix.python }} -c intel -c conda-forge -c plotly --override-channels conda-recipe
+        run: conda build --keep-old-work --dirty --no-test --python ${{ matrix.python }} -c intel -c conda-forge --override-channels conda-recipe
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
@@ -194,13 +193,13 @@ jobs:
         shell: cmd /C CALL {0}
     strategy:
       matrix:
-        python: ['3.8', '3.9', '3.10']
+        python: ['3.10']
         experimental: [false]
         runner: [windows-latest]
     continue-on-error: ${{ matrix.experimental }}
     env:
       workdir: '${{ github.workspace }}'
-      CHANNELS: -c intel -c conda-forge -c plotly -c main --override-channels
+      CHANNELS: -c intel -c conda-forge --override-channels
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
@@ -228,14 +227,6 @@ jobs:
       - name: Index the channel
         shell: cmd /C CALL {0}
         run: conda index ${{ env.workdir }}\channel
-
-      - name: Dump package version info from created channel into ver.json
-        shell: cmd /C CALL {0}
-        run: |
-          conda search ${{ env.PACKAGE_NAME }} -c ${{ env.workdir }}/channel --override-channels --info --json > ${{ env.workdir }}\ver.json
-      - name: Output content of produced ver.json
-        shell: pwsh
-        run: Get-Content -Path ${{ env.workdir }}\ver.json
       - name: Collect dependencies
         shell: cmd /C CALL {0}
         run: |
@@ -270,7 +261,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        python: ['3.8', '3.9', '3.10']
+        python: ['3.10']
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
