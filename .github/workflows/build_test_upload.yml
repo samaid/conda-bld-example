@@ -238,7 +238,8 @@ jobs:
       - name: Install dependencies
         shell: cmd /C CALL {0}
         run: |
-          conda env update -n test-env ${{ env.PACKAGE_NAME }} pytest python=${{ matrix.python }} -c ${{ env.workdir }}/channel ${{ env.CHANNELS }} --file=environment.yml --prune
+          conda install -n test-env ${{ env.PACKAGE_NAME }} pytest python=${{ matrix.python }} -c ${{ env.workdir }}/channel ${{ env.CHANNELS }}
+          conda env update -n test-env ${{ env.CHANNELS }} --file=environment.yml
       - name: Run tests
         shell: cmd /C CALL {0}
         run: >-
