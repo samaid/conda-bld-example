@@ -217,6 +217,11 @@ jobs:
           miniconda-version: 'latest'
           activate-environment: test-env
           python-version: ${{ matrix.python }}
+      - name: Conda info and conda config --show
+        shell: cmd /C CALL {0}
+        run: |
+          conda info
+          conda config --show
       - name: Create conda channel with the artifact bit
         shell: cmd /C CALL {0}
         run: |
