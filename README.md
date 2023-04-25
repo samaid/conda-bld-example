@@ -22,6 +22,9 @@ The demo project is composed as follows
       conda_build_config.yaml  # Specifies build variants
       meta.yaml  # Specifies build/test/run steps, dependencies, and package meta-data
     demo_module  # Python module being wrapped into package demo_pkg
+      tests  # Tests to be run with pytest
+        test1.py
+        ...
       impl  # Implementations sub-module
         __init__.py  # Required for each (sub-)module
         arg_parse.py  # Argument parsing
