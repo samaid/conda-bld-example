@@ -17,23 +17,23 @@ requirements:
   run:
     - python
     - pygame >=2.1
-    #- matplotlib >=3.7.1
-    #- plotly >=5.14.1
-    #- opencv >=4.7.0
+    - matplotlib >=3.7.1
+    - plotly >=5.14.1
+    - opencv >=4.7.0
     - numpy >=1.21
-    #- numba >=0.55
+    - numba >=0.55
 
 test:
   requires:
     - pytest
   commands:
     - demo_entry --help
-    #- python -m demo_module --variant numba  --max-frames 1
+    - python -m demo_module --variant numba  --max-frames 1
     - demo_entry --gui pygame --max-frames 1
-    #- demo_entry --gui matplotlib --max-frames 1
-    #- demo_entry --gui plotly --max-frames 1
-    #- demo_entry --gui no --max-frames 1
-    #- demo_entry --gui opencv --max-frames 1
+    - demo_entry --gui matplotlib --max-frames 1
+    - demo_entry --gui plotly --max-frames 1
+    - demo_entry --gui no --max-frames 1
+    - demo_entry --gui opencv --max-frames 1
   imports:
     - demo_module
     - demo_module.impl
