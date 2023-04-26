@@ -9,7 +9,6 @@ on:
 env:
   PACKAGE_NAME: demo_pkg
   MODULE_NAME: demo_module
-  RUN_TYPE: quick_run  # Set to full_run to run full matrix
 
 jobs:
   build_linux:
@@ -200,7 +199,7 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     env:
       workdir: '${{ github.workspace }}'
-      CHANNELS: -c intel -c conda-forge -c plotly -c main --override-channels
+      CHANNELS: -c intel -c conda-forge -c plotly --override-channels
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
@@ -212,12 +211,20 @@ jobs:
           name: ${{ env.PACKAGE_NAME }} ${{ runner.os }} Python ${{ matrix.python }}
       - uses: conda-incubator/setup-miniconda@v2
         with:
-          use-only-tar-bz2: true
+          use-only-tar-bz2: false
           auto-update-conda: true
           conda-build-version: '*'
           miniconda-version: 'latest'
           activate-environment: test-env
           python-version: ${{ matrix.python }}
+      - name: conda info
+        shell: cmd /C CALL {0}
+        run: |
+          conda info
+      - name: conda config --show
+        shell: cmd /C CALL {0}
+        run: |
+          conda config --show
       - name: Create conda channel with the artifact bit
         shell: cmd /C CALL {0}
         run: |
@@ -228,14 +235,6 @@ jobs:
       - name: Index the channel
         shell: cmd /C CALL {0}
         run: conda index ${{ env.workdir }}\channel
-
-      - name: Dump package version info from created channel into ver.json
-        shell: cmd /C CALL {0}
-        run: |
-          conda search ${{ env.PACKAGE_NAME }} -c ${{ env.workdir }}/channel --override-channels --info --json > ${{ env.workdir }}\ver.json
-      - name: Output content of produced ver.json
-        shell: pwsh
-        run: Get-Content -Path ${{ env.workdir }}\ver.json
       - name: Collect dependencies
         shell: cmd /C CALL {0}
         run: |
@@ -257,12 +256,15 @@ jobs:
       - name: Install dependencies
         shell: cmd /C CALL {0}
         run: |
-          SET "TEST_DEPENDENCIES=pytest"
-          conda install -n test-env ${{ env.PACKAGE_NAME }} %TEST_DEPENDENCIES% python=${{ matrix.python }} -c ${{ env.workdir }}/channel ${{ env.CHANNELS }}
+          conda install -n test-env ${{ env.PACKAGE_NAME }} pytest python=${{ matrix.python }} -c ${{ env.workdir }}/channel ${{ env.CHANNELS }}
       - name: Run tests
-        shell: cmd /C CALL {0}
-        run: >-
-          conda activate test-env && pushd ./${{ env.MODULE_NAME }} && pytest && popd
+        shell: pwsh
+        run: |
+          ls
+          conda activate test-env
+          pushd ./${{ env.MODULE_NAME }}
+          pytest
+          popd
 
   upload_windows:
     needs: test_windows
