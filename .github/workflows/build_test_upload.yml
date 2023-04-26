@@ -259,7 +259,7 @@ jobs:
           conda install -n test-env ${{ env.PACKAGE_NAME }} pytest python=${{ matrix.python }} -c ${{ env.workdir }}/channel ${{ env.CHANNELS }}
       - name: Run tests
         shell: pwsh
-        run: >-
+        run: |
           ls
           conda activate test-env
           pushd ./${{ env.MODULE_NAME }}
