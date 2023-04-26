@@ -257,11 +257,13 @@ jobs:
         shell: cmd /C CALL {0}
         run: |
           conda install -n test-env ${{ env.PACKAGE_NAME }} pytest python=${{ matrix.python }} -c ${{ env.workdir }}/channel ${{ env.CHANNELS }}
-          conda env update -n test-env ${{ env.CHANNELS }} --file=environment.yml
       - name: Run tests
-        shell: cmd /C CALL {0}
+        shell: pwsh
         run: >-
-          conda activate test-env && pushd ./${{ env.MODULE_NAME }} && pytest && popd
+          conda activate test-env
+          pushd ./${{ env.MODULE_NAME }}
+          pytest
+          popd
 
   upload_windows:
     needs: test_windows
